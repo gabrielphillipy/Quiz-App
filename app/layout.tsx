@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quiz App | Plataforma de estudo por assinatura",
+  title: "QG de Aprovacao Militar",
   description:
-    "Landing page de conversão para uma plataforma de estudos com quiz, trilhas e planos de assinatura.",
+    "Plataforma de preparacao para vestibulares militares com trilhas, simulados e assinaturas voltadas para EsPCEx, AFA e EFOMM.",
 };
 
 export default function RootLayout({

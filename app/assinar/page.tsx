@@ -5,36 +5,36 @@ import { useState } from "react";
 
 const plans = [
   {
-    name: "Start",
-    price: 19,
-    description: "Para começar a revisar com consistência e criar ritmo.",
-    badge: "Entrada",
+    name: "Cadete",
+    price: 24,
+    badge: "Base",
+    description: "Entrada no QG para criar ritmo e disciplina.",
     benefits: [
-      "Quiz diário com correção imediata",
-      "Sessões rápidas de revisão",
-      "Histórico básico de desempenho",
+      "Missao diaria de questoes",
+      "Revisao rapida por frente",
+      "Historico inicial de desempenho",
     ],
   },
   {
-    name: "Pro",
-    price: 39,
-    description: "Plano ideal para evoluir com estratégia e foco por matéria.",
+    name: "Oficial",
+    price: 47,
     badge: "Mais escolhido",
+    description: "Plano central para evoluir com estrategia e controle.",
     benefits: [
-      "Tudo do Start",
-      "Trilhas por matéria e dificuldade",
-      "Relatórios de precisão e progresso",
+      "Tudo do plano Cadete",
+      "Trilhas por banca e dificuldade",
+      "Relatorios taticos de precisao",
     ],
   },
   {
-    name: "Elite",
-    price: 69,
-    description: "Preparação intensa com visão completa da sua evolução.",
-    badge: "Alta performance",
+    name: "Academia",
+    price: 79,
+    badge: "Alta intensidade",
+    description: "Camada maxima de preparo para campanhas maiores.",
     benefits: [
-      "Tudo do Pro",
-      "Simulados completos e revisão inteligente",
-      "Painel de metas e desempenho avançado",
+      "Tudo do plano Oficial",
+      "Simulados completos por edital",
+      "Painel avancado de metas",
     ],
   },
 ] as const;
@@ -42,32 +42,32 @@ const plans = [
 type PlanName = (typeof plans)[number]["name"];
 
 export default function SubscribePage() {
-  const [selectedPlan, setSelectedPlan] = useState<PlanName>("Pro");
-  const plan = plans.find(({ name }) => name === selectedPlan) ?? plans[1];
+  const [selectedPlan, setSelectedPlan] = useState<PlanName>("Oficial");
+  const plan = plans.find((item) => item.name === selectedPlan) ?? plans[1];
   const annualTotal = plan.price * 12;
-  const annualDiscount = Math.round(annualTotal * 0.15);
+  const annualDiscount = Math.round(annualTotal * 0.18);
   const annualPrice = annualTotal - annualDiscount;
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,_#f8fafc_0%,_#eef6ff_50%,_#fff8ef_100%)] text-slate-950">
+    <main className="min-h-screen bg-[linear-gradient(180deg,_#f2ebdb_0%,_#d8dfcf_34%,_#0f1711_34%,_#0a0f0b_100%)] text-stone-100">
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-6rem] top-0 h-56 w-56 rounded-full bg-cyan-300/30 blur-3xl" />
-          <div className="absolute bottom-[-6rem] right-[-4rem] h-72 w-72 rounded-full bg-amber-300/30 blur-3xl" />
+          <div className="absolute left-[-7rem] top-0 h-56 w-56 rounded-full bg-[#c7a86c]/30 blur-3xl" />
+          <div className="absolute bottom-[-7rem] right-[-4rem] h-72 w-72 rounded-full bg-[#3f503d]/40 blur-3xl" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-5 py-6 sm:px-8 lg:px-12">
-          <header className="flex flex-col gap-4 rounded-[2rem] border border-slate-200/70 bg-white/80 px-5 py-4 backdrop-blur md:flex-row md:items-center md:justify-between">
+          <header className="flex flex-col gap-4 rounded-[2rem] border border-[#2f392f] bg-[#121a13]/88 px-5 py-4 backdrop-blur md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-bold text-white">
-                QZ
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#c7a86c]/45 bg-[#1b241b] text-sm font-bold tracking-[0.18em] text-[#e6d6ae]">
+                QG
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Quiz App
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#d1c29b]">
+                  QG de Aprovacao Militar
                 </p>
-                <p className="text-sm text-slate-600">
-                  Assinatura para transformar revisão em rotina.
+                <p className="text-sm text-stone-300">
+                  Assinatura para vestibulares militares.
                 </p>
               </div>
             </div>
@@ -75,31 +75,32 @@ export default function SubscribePage() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/"
-                className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-950"
+                className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-stone-100 transition hover:bg-white/10"
               >
-                Voltar ao site
+                Voltar ao QG
               </Link>
               <Link
                 href="/quiz"
-                className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="rounded-full bg-[#c7a86c] px-4 py-2 text-sm font-semibold text-[#111913] transition hover:bg-[#d6b985]"
               >
-                Ver demonstração
+                Ver sala tatica
               </Link>
             </div>
           </header>
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="space-y-6">
+          <div className="mt-8 grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="space-y-6 text-[#101510] lg:text-stone-100">
               <div className="space-y-4">
-                <span className="inline-flex rounded-full border border-cyan-200 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-900">
-                  Checkout de assinatura
+                <span className="inline-flex rounded-full border border-[#907548]/40 bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#6f5836] lg:bg-[#e6d6ae]/12 lg:text-[#e6d6ae]">
+                  Sala de adesao
                 </span>
-                <h1 className="max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl">
-                  Escolha o plano certo e entre no seu próximo ciclo de estudo.
+                <h1 className="max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[#f4efe3]">
+                  Escolha o plano de campanha que combina com a sua meta.
                 </h1>
-                <p className="max-w-2xl text-lg leading-8 text-slate-600">
-                  Uma tela pensada para converter: comparação rápida, resumo do
-                  valor e um fluxo simples para começar hoje mesmo.
+                <p className="max-w-2xl text-lg leading-8 text-[#374236] lg:text-stone-300">
+                  A jornada aqui nao e casual. Selecione o nivel de preparo,
+                  veja o resumo da operacao e entre em um ambiente focado em
+                  aprovacao militar.
                 </p>
               </div>
 
@@ -114,8 +115,8 @@ export default function SubscribePage() {
                       onClick={() => setSelectedPlan(item.name)}
                       className={`rounded-[2rem] border p-5 text-left transition ${
                         isActive
-                          ? "border-slate-950 bg-slate-950 text-white shadow-[0_28px_70px_rgba(15,23,42,0.18)]"
-                          : "border-slate-200 bg-white text-slate-900 hover:border-slate-400"
+                          ? "border-[#c7a86c] bg-[#111913] text-[#f4efe3] shadow-[0_28px_70px_rgba(0,0,0,0.24)]"
+                          : "border-[#cdbb93]/45 bg-white/80 text-[#111913] hover:border-[#7f6a46] lg:border-white/10 lg:bg-white/5 lg:text-stone-100"
                       }`}
                     >
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -127,8 +128,8 @@ export default function SubscribePage() {
                             <span
                               className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
                                 isActive
-                                  ? "bg-white/10 text-cyan-200"
-                                  : "bg-slate-100 text-slate-600"
+                                  ? "bg-[#c7a86c]/12 text-[#e6d6ae]"
+                                  : "bg-[#e9e0ca] text-[#6b5837] lg:bg-white/10 lg:text-[#d1c29b]"
                               }`}
                             >
                               {item.badge}
@@ -136,7 +137,9 @@ export default function SubscribePage() {
                           </div>
                           <p
                             className={`mt-2 text-sm leading-7 ${
-                              isActive ? "text-slate-300" : "text-slate-600"
+                              isActive
+                                ? "text-stone-300"
+                                : "text-[#4e584b] lg:text-stone-300"
                             }`}
                           >
                             {item.description}
@@ -149,10 +152,12 @@ export default function SubscribePage() {
                           </p>
                           <p
                             className={`text-sm ${
-                              isActive ? "text-slate-300" : "text-slate-500"
+                              isActive
+                                ? "text-stone-400"
+                                : "text-[#5b6458] lg:text-stone-400"
                             }`}
                           >
-                            por mês
+                            por mes
                           </p>
                         </div>
                       </div>
@@ -163,8 +168,8 @@ export default function SubscribePage() {
                             key={benefit}
                             className={`rounded-2xl px-4 py-3 text-sm ${
                               isActive
-                                ? "bg-white/6 text-slate-200"
-                                : "bg-slate-50 text-slate-600"
+                                ? "bg-white/6 text-stone-200"
+                                : "bg-[#edf0e4] text-[#4d564a] lg:bg-white/5 lg:text-stone-300"
                             }`}
                           >
                             {benefit}
@@ -178,87 +183,102 @@ export default function SubscribePage() {
             </div>
 
             <div className="lg:pt-12">
-              <div className="sticky top-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] sm:p-7">
+              <div className="sticky top-6 rounded-[2rem] border border-[#2f392f] bg-[#111913] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.32)] sm:p-7">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Resumo do pedido
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#d1c29b]">
+                      Resumo da operacao
                     </p>
-                    <h2 className="mt-2 text-3xl font-semibold">
+                    <h2 className="mt-2 text-3xl font-semibold text-[#f4efe3]">
                       Plano {plan.name}
                     </h2>
                   </div>
-                  <span className="rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-900">
-                    Assinatura mensal
+                  <span className="rounded-full bg-[#c7a86c] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#111913]">
+                    Adesao mensal
                   </span>
                 </div>
 
-                <div className="mt-6 rounded-[1.75rem] bg-slate-950 p-5 text-white">
+                <div className="mt-6 rounded-[1.75rem] border border-[#394739] bg-[linear-gradient(180deg,_#151e15_0%,_#101710_100%)] p-5 text-[#f4efe3]">
                   <div className="flex items-end justify-between gap-3">
                     <div>
-                      <p className="text-sm text-slate-300">Valor atual</p>
+                      <p className="text-sm text-stone-300">Valor atual</p>
                       <p className="mt-2 text-4xl font-semibold">
                         R$ {plan.price}
                       </p>
                     </div>
-                    <p className="pb-1 text-sm text-slate-400">por mês</p>
+                    <p className="pb-1 text-sm text-stone-400">por mes</p>
                   </div>
                   <div className="mt-5 h-3 overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full w-[78%] rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-emerald-300" />
+                    <div className="h-full w-[79%] rounded-full bg-gradient-to-r from-[#c7a86c] via-[#d6b985] to-[#f0dfb5]" />
                   </div>
-                  <p className="mt-3 text-sm text-slate-300">
-                    Cobrança recorrente com cancelamento simples.
+                  <p className="mt-3 text-sm text-stone-300">
+                    Acesso recorrente com cancelamento simples e retorno imediato
+                    ao centro de comando.
                   </p>
                 </div>
 
-                <div className="mt-6 space-y-3 rounded-[1.5rem] bg-slate-50 p-4">
-                  <PriceRow label="Plano escolhido" value={`R$ ${plan.price}/mês`} />
-                  <PriceRow label="Economia anual estimada" value={`R$ ${annualDiscount}`} />
-                  <PriceRow label="Plano anual equivalente" value={`R$ ${annualPrice}/ano`} />
+                <div className="mt-6 space-y-3 rounded-[1.5rem] bg-[#1a231b] p-4">
+                  <PriceRow
+                    label="Plano escolhido"
+                    value={`R$ ${plan.price}/mes`}
+                  />
+                  <PriceRow
+                    label="Economia anual estimada"
+                    value={`R$ ${annualDiscount}`}
+                  />
+                  <PriceRow
+                    label="Plano anual equivalente"
+                    value={`R$ ${annualPrice}/ano`}
+                  />
                 </div>
 
                 <form className="mt-6 space-y-4">
-                  <Field label="Nome completo" placeholder="Seu nome" />
+                  <Field label="Nome completo" placeholder="Seu nome de cadastro" />
                   <Field
-                    label="E-mail"
+                    label="E-mail operacional"
                     placeholder="voce@exemplo.com"
                     type="email"
                   />
 
                   <div className="grid gap-4 sm:grid-cols-[1.3fr_0.7fr]">
-                    <Field label="Número do cartão" placeholder="0000 0000 0000 0000" />
+                    <Field
+                      label="Numero do cartao"
+                      placeholder="0000 0000 0000 0000"
+                    />
                     <Field label="Validade" placeholder="MM/AA" />
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-[1fr_0.7fr]">
-                    <Field label="Nome no cartão" placeholder="Como está no cartão" />
+                    <Field
+                      label="Nome no cartao"
+                      placeholder="Como aparece no cartao"
+                    />
                     <Field label="CVV" placeholder="123" />
                   </div>
 
-                  <label className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                  <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-stone-300">
                     <input
                       type="checkbox"
                       defaultChecked
-                      className="mt-1 h-4 w-4 rounded border-slate-300 accent-slate-950"
+                      className="mt-1 h-4 w-4 rounded border-white/20 accent-[#c7a86c]"
                     />
                     <span>
-                      Concordo com os termos de uso e autorizo a cobrança
-                      recorrente do plano selecionado.
+                      Autorizo a cobranca recorrente e confirmo a adesao ao plano
+                      selecionado para uso na plataforma.
                     </span>
                   </label>
 
                   <button
                     type="submit"
-                    className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-4 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    className="inline-flex w-full items-center justify-center rounded-full bg-[#c7a86c] px-6 py-4 text-sm font-semibold text-[#111913] transition hover:bg-[#d6b985]"
                   >
-                    Confirmar assinatura do plano {plan.name}
+                    Confirmar adesao ao plano {plan.name}
                   </button>
                 </form>
 
-                <p className="mt-4 text-center text-xs leading-6 text-slate-500">
-                  Ambiente visual de assinatura. A integração real com pagamento
-                  pode ser conectada depois com Stripe, Mercado Pago ou outro
-                  gateway.
+                <p className="mt-4 text-center text-xs leading-6 text-stone-400">
+                  Tela visual de assinatura. A integracao real pode ser ligada
+                  depois com Stripe, Mercado Pago ou outro gateway.
                 </p>
               </div>
             </div>
@@ -272,8 +292,8 @@ export default function SubscribePage() {
 function PriceRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 text-sm">
-      <span className="text-slate-500">{label}</span>
-      <span className="font-semibold text-slate-900">{value}</span>
+      <span className="text-stone-400">{label}</span>
+      <span className="font-semibold text-[#f4efe3]">{value}</span>
     </div>
   );
 }
@@ -289,13 +309,13 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-sm font-medium text-slate-700">
+      <span className="mb-2 block text-sm font-medium text-stone-200">
         {label}
       </span>
       <input
         type={type}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-950"
+        className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-[#f4efe3] outline-none transition placeholder:text-stone-500 focus:border-[#c7a86c]"
       />
     </label>
   );
