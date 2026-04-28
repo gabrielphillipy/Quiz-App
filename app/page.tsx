@@ -125,16 +125,16 @@ export default function Home() {
           </header>
 
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div className="space-y-8 text-[#0f1711] lg:text-stone-100">
-              <span className="inline-flex rounded-full border border-[#907548]/40 bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-[#6f5836] lg:bg-[#e6d6ae]/12 lg:text-[#e6d6ae]">
+            <div className="space-y-8 rounded-[2rem] border border-[#cdbb93]/40 bg-white/82 p-6 text-[#0f1711] shadow-[0_20px_60px_rgba(17,25,19,0.1)] sm:p-8">
+              <span className="inline-flex rounded-full border border-[#907548]/40 bg-[#efe4cb] px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-[#6f5836]">
                 Preparacao para EsPCEx, AFA e EFOMM
               </span>
 
               <div className="space-y-5">
-                <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-[#101510] sm:text-6xl lg:text-[#f4efe3]">
+                <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-[#101510] sm:text-6xl">
                   O seu centro de comando para passar em vestibulares militares.
                 </h1>
-                <p className="max-w-2xl text-lg leading-8 text-[#374236] lg:text-stone-300">
+                <p className="max-w-2xl text-lg leading-8 text-[#374236]">
                   Saia do estudo solto e entre em um ambiente de campanha:
                   missao do dia, revisao por frente, desempenho em campo e
                   planos criados para quem busca aprovacao com rotina e postura.
@@ -160,10 +160,12 @@ export default function Home() {
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-[1.5rem] border border-[#cdbb93]/40 bg-white/80 p-4 shadow-[0_20px_60px_rgba(17,25,19,0.12)] lg:border-white/10 lg:bg-white/5 lg:text-white"
+                    className="rounded-[1.5rem] border border-[#cdbb93]/40 bg-white p-4 shadow-[0_20px_60px_rgba(17,25,19,0.08)]"
                   >
-                    <p className="text-2xl font-semibold">{stat.value}</p>
-                    <p className="mt-2 text-sm leading-6 text-[#4f5a4d] lg:text-stone-300">
+                    <p className="text-2xl font-semibold text-[#101510]">
+                      {stat.value}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[#4f5a4d]">
                       {stat.label}
                     </p>
                   </div>
