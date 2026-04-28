@@ -89,15 +89,15 @@ export default function SubscribePage() {
           </header>
 
           <div className="mt-8 grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="space-y-6 text-[#101510] lg:text-stone-100">
+            <div className="space-y-6 rounded-[2rem] border border-[#cdbb93]/45 bg-white/82 p-6 text-[#101510] shadow-[0_20px_60px_rgba(17,25,19,0.1)] sm:p-8">
               <div className="space-y-4">
-                <span className="inline-flex rounded-full border border-[#907548]/40 bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#6f5836] lg:bg-[#e6d6ae]/12 lg:text-[#e6d6ae]">
+                <span className="inline-flex rounded-full border border-[#907548]/40 bg-[#efe4cb] px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#6f5836]">
                   Sala de adesao
                 </span>
-                <h1 className="max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-[#f4efe3]">
+                <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-[#101510] sm:text-6xl">
                   Escolha o plano de campanha que combina com a sua meta.
                 </h1>
-                <p className="max-w-2xl text-lg leading-8 text-[#374236] lg:text-stone-300">
+                <p className="max-w-2xl text-lg leading-8 text-[#374236]">
                   A jornada aqui nao e casual. Selecione o nivel de preparo,
                   veja o resumo da operacao e entre em um ambiente focado em
                   aprovacao militar.
@@ -116,7 +116,7 @@ export default function SubscribePage() {
                       className={`rounded-[2rem] border p-5 text-left transition ${
                         isActive
                           ? "border-[#c7a86c] bg-[#111913] text-[#f4efe3] shadow-[0_28px_70px_rgba(0,0,0,0.24)]"
-                          : "border-[#cdbb93]/45 bg-white/80 text-[#111913] hover:border-[#7f6a46] lg:border-white/10 lg:bg-white/5 lg:text-stone-100"
+                          : "border-[#cdbb93]/45 bg-white text-[#111913] hover:border-[#7f6a46]"
                       }`}
                     >
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -129,7 +129,7 @@ export default function SubscribePage() {
                               className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
                                 isActive
                                   ? "bg-[#c7a86c]/12 text-[#e6d6ae]"
-                                  : "bg-[#e9e0ca] text-[#6b5837] lg:bg-white/10 lg:text-[#d1c29b]"
+                                  : "bg-[#e9e0ca] text-[#6b5837]"
                               }`}
                             >
                               {item.badge}
@@ -139,7 +139,7 @@ export default function SubscribePage() {
                             className={`mt-2 text-sm leading-7 ${
                               isActive
                                 ? "text-stone-300"
-                                : "text-[#4e584b] lg:text-stone-300"
+                                : "text-[#4e584b]"
                             }`}
                           >
                             {item.description}
@@ -154,7 +154,7 @@ export default function SubscribePage() {
                             className={`text-sm ${
                               isActive
                                 ? "text-stone-400"
-                                : "text-[#5b6458] lg:text-stone-400"
+                                : "text-[#5b6458]"
                             }`}
                           >
                             por mes
@@ -169,7 +169,7 @@ export default function SubscribePage() {
                             className={`rounded-2xl px-4 py-3 text-sm ${
                               isActive
                                 ? "bg-white/6 text-stone-200"
-                                : "bg-[#edf0e4] text-[#4d564a] lg:bg-white/5 lg:text-stone-300"
+                                : "bg-[#edf0e4] text-[#4d564a]"
                             }`}
                           >
                             {benefit}
