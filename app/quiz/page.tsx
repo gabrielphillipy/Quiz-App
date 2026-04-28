@@ -1,109 +1,234 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-const questions = [
+type ExamKey = "ita" | "espcex" | "efomm";
+
+type Question = {
+  question: string;
+  options: string[];
+  answer: string;
+  explanation: string;
+  tag: string;
+  source: string;
+  sourceType: "adaptada" | "inedita";
+};
+
+const examMeta: Record<
+  ExamKey,
   {
-    question: "Se log₂(x) = 3, então x é:",
-    options: ["6", "8", "9", "12"],
-    answer: "8",
-    explanation: "Se log₂(x) = 3, então x = 2³, portanto x = 8.",
-    tag: "Logaritmos",
+    label: string;
+    shortLabel: string;
+    mission: string;
+    description: string;
+  }
+> = {
+  ita: {
+    label: "ITA",
+    shortLabel: "ITA",
+    mission: "Operação engenharia de alta pressão",
+    description:
+      "Cinco questões para quem quer sentir o tipo de raciocínio mais exigente da carreira aeronáutica.",
   },
-  {
-    question: "PA: a1 = 3, r = 4. Qual é o 5º termo?",
-    options: ["15", "17", "19", "21"],
-    answer: "19",
-    explanation: "a5 = a1 + (5 - 1) × r = 3 + 4 × 4 = 19.",
-    tag: "Progressão aritmética",
+  espcex: {
+    label: "EsPCEx",
+    shortLabel: "EsPCEx",
+    mission: "Operação academia do Exército",
+    description:
+      "Cinco questões para treino rápido de matemática com perfil de prova da EsPCEx.",
   },
-  {
-    question: "Se f(x) = 2x² - 3x + 1, então f(2) é igual a:",
-    options: ["1", "2", "3", "4"],
-    answer: "3",
-    explanation: "f(2) = 2·(2²) - 3·2 + 1 = 8 - 6 + 1 = 3.",
-    tag: "Funções",
+  efomm: {
+    label: "EFOMM",
+    shortLabel: "EFOMM",
+    mission: "Operação academia do mar",
+    description:
+      "Cinco questões com foco no estilo da EFOMM, misturando base algébrica e leitura objetiva.",
   },
-  {
-    question: "As raízes da equação x² - 5x + 6 = 0 são:",
-    options: ["1 e 6", "2 e 3", "3 e 5", "-2 e -3"],
-    answer: "2 e 3",
-    explanation:
-      "Fatorando, x² - 5x + 6 = (x - 2)(x - 3). Logo, as raízes são 2 e 3.",
-    tag: "Equação do 2º grau",
-  },
-  {
-    question: "Em um triângulo retângulo, se sen θ = 3/5, então cos θ vale:",
-    options: ["4/5", "3/4", "5/4", "2/5"],
-    answer: "4/5",
-    explanation:
-      "Se sen θ = 3/5, podemos usar o triângulo 3-4-5. Assim, cos θ = 4/5.",
-    tag: "Trigonometria",
-  },
-  {
-    question: "O número de anagramas da palavra SOLDADO é:",
-    options: ["420", "840", "1260", "2520"],
-    answer: "2520",
-    explanation:
-      "A palavra tem 7 letras, com O repetido 2 vezes e D repetido 2 vezes. Logo, 7!/(2!·2!) = 2520.",
-    tag: "Análise combinatória",
-  },
-  {
-    question: "Uma turma tem 6 alunos. Quantas comissões de 2 alunos podem ser formadas?",
-    options: ["12", "15", "20", "30"],
-    answer: "15",
-    explanation: "A quantidade de comissões é C(6,2) = 6!/(2!·4!) = 15.",
-    tag: "Combinatória",
-  },
-  {
-    question: "A soma dos ângulos internos de um hexágono convexo é:",
-    options: ["540°", "720°", "900°", "1080°"],
-    answer: "720°",
-    explanation:
-      "A soma dos ângulos internos de um polígono é (n - 2)·180°. Para n = 6, temos 4·180° = 720°.",
-    tag: "Geometria plana",
-  },
-  {
-    question: "A área de um círculo de raio 3 é:",
-    options: ["3π", "6π", "9π", "12π"],
-    answer: "9π",
-    explanation: "A = πr² = π·3² = 9π.",
-    tag: "Geometria plana",
-  },
-  {
-    question: "Se 2ˣ = 32, então x é:",
-    options: ["4", "5", "6", "8"],
-    answer: "5",
-    explanation: "Como 32 = 2⁵, segue que x = 5.",
-    tag: "Potenciação",
-  },
-  {
-    question: "A média aritmética dos números 4, 7, 9 e 10 é:",
-    options: ["7", "7,5", "8", "8,5"],
-    answer: "7,5",
-    explanation: "A média é (4 + 7 + 9 + 10)/4 = 30/4 = 7,5.",
-    tag: "Estatística",
-  },
-  {
-    question: "Se det(A) = 4 e det(B) = -3, então det(AB) é:",
-    options: ["-12", "-7", "7", "12"],
-    answer: "-12",
-    explanation:
-      "Vale a propriedade det(AB) = det(A)·det(B). Logo, 4·(-3) = -12.",
-    tag: "Matrizes",
-  },
-] as const;
+};
+
+const questionBank: Record<ExamKey, Question[]> = {
+  ita: [
+    {
+      question:
+        "Adaptada do ITA 2024: se x e y são reais positivos com x + y = 6 e xy = 5, então x² + y² vale:",
+      options: ["16", "18", "26", "36"],
+      answer: "26",
+      explanation:
+        "Usamos x² + y² = (x + y)² - 2xy = 6² - 2·5 = 36 - 10 = 26.",
+      tag: "Álgebra",
+      source: "Adaptada de prova anterior do ITA",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Adaptada do ITA 2023: o valor de log₂(32) + log₃(27) é:",
+      options: ["6", "7", "8", "9"],
+      answer: "8",
+      explanation: "log₂(32) = 5 e log₃(27) = 3. Logo, a soma é 8.",
+      tag: "Logaritmos",
+      source: "Adaptada de prova anterior do ITA",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Adaptada do ITA 2022: a soma das raízes da equação x² - 7x + 10 = 0 é:",
+      options: ["3", "5", "7", "10"],
+      answer: "7",
+      explanation:
+        "Pela relação de Viète, a soma das raízes de ax² + bx + c = 0 é -b/a. Aqui, vale 7.",
+      tag: "Polinômios",
+      source: "Adaptada de prova anterior do ITA",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Inédita no estilo ITA: se a progressão geométrica tem primeiro termo 2 e razão 3, então o 4º termo é:",
+      options: ["18", "36", "54", "81"],
+      answer: "54",
+      explanation: "a₄ = 2·3³ = 2·27 = 54.",
+      tag: "Progressões",
+      source: "Inédita no estilo ITA",
+      sourceType: "inedita",
+    },
+    {
+      question:
+        "Inédita no estilo ITA: se sen θ = 5/13 em um triângulo retângulo, então cos θ é:",
+      options: ["12/13", "5/12", "13/12", "8/13"],
+      answer: "12/13",
+      explanation:
+        "No triângulo 5-12-13, se o cateto oposto é 5 e a hipotenusa é 13, então o cateto adjacente é 12. Logo, cos θ = 12/13.",
+      tag: "Trigonometria",
+      source: "Inédita no estilo ITA",
+      sourceType: "inedita",
+    },
+  ],
+  espcex: [
+    {
+      question:
+        "Adaptada da EsPCEx 2020: a soma dos ângulos internos de um octógono convexo é:",
+      options: ["900°", "1080°", "1260°", "1440°"],
+      answer: "1080°",
+      explanation:
+        "A soma dos ângulos internos de um polígono convexo é (n - 2)·180°. Para n = 8, temos 6·180° = 1080°.",
+      tag: "Geometria plana",
+      source: "Adaptada de prova anterior da EsPCEx",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Adaptada da EsPCEx 2019: se 2x - 3 = 11, então x é igual a:",
+      options: ["4", "5", "6", "7"],
+      answer: "7",
+      explanation: "2x = 14, portanto x = 7.",
+      tag: "Equação do 1º grau",
+      source: "Adaptada de prova anterior da EsPCEx",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Adaptada da EsPCEx 2018: a média aritmética entre 6, 8 e 10 é:",
+      options: ["7", "8", "9", "10"],
+      answer: "8",
+      explanation: "(6 + 8 + 10)/3 = 24/3 = 8.",
+      tag: "Estatística",
+      source: "Adaptada de prova anterior da EsPCEx",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Inédita no estilo EsPCEx: em uma PA de primeiro termo 5 e razão 3, o 6º termo vale:",
+      options: ["17", "18", "20", "23"],
+      answer: "20",
+      explanation: "a₆ = 5 + (6 - 1)·3 = 5 + 15 = 20.",
+      tag: "Progressão aritmética",
+      source: "Inédita no estilo EsPCEx",
+      sourceType: "inedita",
+    },
+    {
+      question:
+        "Inédita no estilo EsPCEx: a área de um círculo de raio 4 é:",
+      options: ["8π", "12π", "16π", "20π"],
+      answer: "16π",
+      explanation: "A = πr² = π·4² = 16π.",
+      tag: "Geometria plana",
+      source: "Inédita no estilo EsPCEx",
+      sourceType: "inedita",
+    },
+  ],
+  efomm: [
+    {
+      question:
+        "Adaptada da EFOMM 2021: se z = 3 + 4i, então o módulo de z é:",
+      options: ["4", "5", "6", "7"],
+      answer: "5",
+      explanation: "|z| = √(3² + 4²) = √25 = 5.",
+      tag: "Números complexos",
+      source: "Adaptada de prova anterior da EFOMM",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Adaptada da EFOMM 2020: se det(A) = 2 e det(B) = -4, então det(AB) é:",
+      options: ["-8", "-2", "2", "8"],
+      answer: "-8",
+      explanation:
+        "Pela propriedade dos determinantes, det(AB) = det(A)·det(B) = 2·(-4) = -8.",
+      tag: "Matrizes",
+      source: "Adaptada de prova anterior da EFOMM",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Adaptada da EFOMM 2019: o número de combinações de 5 elementos tomados 2 a 2 é:",
+      options: ["5", "8", "10", "20"],
+      answer: "10",
+      explanation: "C(5,2) = 5!/(2!·3!) = 10.",
+      tag: "Combinatória",
+      source: "Adaptada de prova anterior da EFOMM",
+      sourceType: "adaptada",
+    },
+    {
+      question:
+        "Inédita no estilo EFOMM: se f(x) = x² - 4x + 4, então f(3) vale:",
+      options: ["1", "2", "3", "4"],
+      answer: "1",
+      explanation: "f(3) = 3² - 4·3 + 4 = 9 - 12 + 4 = 1.",
+      tag: "Funções",
+      source: "Inédita no estilo EFOMM",
+      sourceType: "inedita",
+    },
+    {
+      question:
+        "Inédita no estilo EFOMM: em um triângulo retângulo com catetos 9 e 12, a hipotenusa mede:",
+      options: ["13", "14", "15", "16"],
+      answer: "15",
+      explanation:
+        "Pelo teorema de Pitágoras, h = √(9² + 12²) = √225 = 15.",
+      tag: "Geometria",
+      source: "Inédita no estilo EFOMM",
+      sourceType: "inedita",
+    },
+  ],
+};
 
 export default function Quiz() {
+  const [selectedExam, setSelectedExam] = useState<ExamKey>("espcex");
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
 
-  const q = questions[current];
-  const progress = ((current + (selected ? 1 : 0)) / questions.length) * 100;
-  const isLastQuestion = current === questions.length - 1;
+  const examQuestions = questionBank[selectedExam];
+  const exam = examMeta[selectedExam];
+  const q = examQuestions[current];
+
+  const progress = ((current + (selected ? 1 : 0)) / examQuestions.length) * 100;
+  const isLastQuestion = current === examQuestions.length - 1;
   const answeredCorrectly = selected === q.answer;
+  const adaptedCount = useMemo(
+    () => examQuestions.filter((item) => item.sourceType === "adaptada").length,
+    [examQuestions],
+  );
 
   function handleAnswer(option: string) {
     if (selected) return;
@@ -125,6 +250,13 @@ export default function Quiz() {
     setScore(0);
   }
 
+  function changeExam(examKey: ExamKey) {
+    setSelectedExam(examKey);
+    setCurrent(0);
+    setSelected(null);
+    setScore(0);
+  }
+
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,_#0f1711_0%,_#111b12_55%,_#0b0f0c_100%)] text-stone-100">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -140,10 +272,10 @@ export default function Quiz() {
             </div>
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#d1c29b]">
-                Sala tatica de matematica
+                Teste gratuito por vestibular
               </p>
               <p className="text-sm text-stone-300">
-                Treino de missao para vestibulares militares.
+                Escolha a banca e enfrente 5 questões de aquecimento.
               </p>
             </div>
           </div>
@@ -159,10 +291,44 @@ export default function Quiz() {
               href="/assinar"
               className="rounded-full bg-[#c7a86c] px-4 py-2 text-sm font-semibold text-[#111913] transition hover:bg-[#d6b985]"
             >
-              Assinar plano
+              Assinar plano completo
             </Link>
           </div>
         </header>
+
+        <div className="mb-8 rounded-[2rem] border border-[#2f392f] bg-[#111913]/92 p-4 sm:p-5">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#d1c29b]">
+                Escolha de frente
+              </p>
+              <p className="mt-1 text-sm text-stone-300">
+                Cada trilha gratuita tem 5 questões, misturando adaptadas de
+                provas anteriores e inéditas no mesmo estilo.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {(Object.keys(examMeta) as ExamKey[]).map((examKey) => {
+                const isActive = selectedExam === examKey;
+                return (
+                  <button
+                    key={examKey}
+                    type="button"
+                    onClick={() => changeExam(examKey)}
+                    className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                      isActive
+                        ? "bg-[#c7a86c] text-[#111913]"
+                        : "border border-white/10 bg-white/5 text-stone-200 hover:bg-white/10"
+                    }`}
+                  >
+                    {examMeta[examKey].shortLabel}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-[1.02fr_0.98fr]">
           <div className="flex flex-col justify-between rounded-[2rem] border border-[#2f392f] bg-[#111913]/92 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] sm:p-8">
@@ -170,44 +336,43 @@ export default function Quiz() {
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-4">
                   <span className="inline-flex rounded-full border border-[#c7a86c]/35 bg-[#c7a86c]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#e6d6ae]">
-                    Operacao EsPCEx
+                    {exam.mission}
                   </span>
 
                   <div className="space-y-3">
                     <h1 className="max-w-lg text-4xl font-semibold tracking-tight text-[#f4efe3] sm:text-5xl">
-                      Treine como quem se prepara para uma prova militar de verdade.
+                      {exam.label}: simulado rápido de entrada
                     </h1>
                     <p className="max-w-xl text-sm leading-6 text-stone-300 sm:text-base">
-                      Missao objetiva, leitura rapida de desempenho e questoes
-                      escolhidas para manter disciplina de revisao.
+                      {exam.description}
                     </p>
                   </div>
                 </div>
 
                 <div className="rounded-2xl border border-[#c7a86c]/25 bg-[#c7a86c]/8 px-4 py-3 text-right">
                   <p className="text-xs uppercase tracking-[0.22em] text-[#d1c29b]">
-                    Setor atual
+                    Questão atual
                   </p>
                   <p className="mt-1 text-2xl font-semibold text-[#f4efe3]">
                     {current + 1}
                     <span className="text-sm text-stone-400">
-                      /{questions.length}
+                      /{examQuestions.length}
                     </span>
                   </p>
                 </div>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3">
-                <MetricCard label="Acertos" value={`${score}`} detail="boletim parcial" />
+                <MetricCard label="Acertos" value={`${score}`} detail="parcial da missão" />
                 <MetricCard
-                  label="Indice"
-                  value={`${Math.round((score / questions.length) * 100)}%`}
-                  detail="precisao da tropa"
+                  label="Oficiais"
+                  value={`${adaptedCount}`}
+                  detail="adaptadas de prova"
                 />
                 <MetricCard
-                  label="Frente"
-                  value="Mat"
-                  detail="campanha prioritaria"
+                  label="Inéditas"
+                  value={`${examQuestions.length - adaptedCount}`}
+                  detail="estilo da banca"
                 />
               </div>
 
@@ -215,11 +380,11 @@ export default function Quiz() {
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="text-xs uppercase tracking-[0.22em] text-[#d1c29b]">
-                      Progresso da missao
+                      Progresso do teste gratuito
                     </p>
                     <p className="mt-2 text-sm text-stone-300">
-                      Funcoes, algebra, trigonometria, combinatoria e geometria
-                      em uma mesma frente de combate.
+                      Quando terminar esta trilha, você pode trocar de banca e
+                      reiniciar outro bloco de 5 questões.
                     </p>
                   </div>
                   <span className="rounded-full bg-white/8 px-3 py-1 text-sm font-medium text-stone-200">
@@ -237,24 +402,36 @@ export default function Quiz() {
             </div>
 
             <div className="mt-8 rounded-[1.75rem] border border-[#c7a86c]/18 bg-[#c7a86c]/8 p-5 text-sm text-[#f2e4bf]">
-              Ordem do dia: concentre energia nas frentes com maior retorno e
-              avance sem acumular lacunas.
+              Fonte da trilha: {adaptedCount} questões adaptadas de provas
+              anteriores do {exam.label} e {examQuestions.length - adaptedCount}{" "}
+              inéditas no mesmo perfil.
             </div>
           </div>
 
           <div className="rounded-[2rem] border border-[#d3c29d]/45 bg-[#f4efe3] p-6 text-[#111913] shadow-[0_30px_90px_rgba(0,0,0,0.22)] sm:p-8">
-            <div className="flex items-center justify-between gap-3">
-              <span className="rounded-full bg-[#111913] px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[#f4efe3]">
-                {q.tag}
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full bg-[#111913] px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[#f4efe3]">
+                  {q.tag}
+                </span>
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
+                    q.sourceType === "adaptada"
+                      ? "bg-[#d9c79e] text-[#59472c]"
+                      : "bg-[#dbe7d8] text-[#294029]"
+                  }`}
+                >
+                  {q.sourceType === "adaptada" ? "Questão adaptada" : "Questão inédita"}
+                </span>
+              </div>
               <span className="text-sm font-medium text-[#6a715f]">
-                Resposta unica
+                {exam.label}
               </span>
             </div>
 
             <div className="mt-6">
               <p className="text-sm font-medium text-[#6f5836]">
-                Missao {current + 1}
+                Fonte: {q.source}
               </p>
               <h2 className="mt-3 text-2xl font-semibold leading-tight sm:text-[2rem]">
                 {q.question}
@@ -293,7 +470,7 @@ export default function Quiz() {
                           ? "Correta"
                           : isSelected
                             ? "Sua resposta"
-                            : "Opcao"
+                            : "Opção"
                         : "Responder"}
                     </span>
                   </button>
@@ -306,10 +483,11 @@ export default function Quiz() {
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <p className="text-sm font-semibold text-[#111913]">
-                      Analise com calma e execute com precisao
+                      Selecione a resposta e veja o comentário
                     </p>
                     <p className="mt-1 text-sm text-[#5f6758]">
-                      O gabarito comentado aparece assim que a resposta e marcada.
+                      O teste gratuito mostra a lógica da solução e deixa claro
+                      se a questão é adaptada ou inédita.
                     </p>
                   </div>
                   <div className="hidden h-12 w-12 rounded-2xl border border-[#d1c29b] bg-[#f4efe3] sm:block" />
@@ -320,7 +498,7 @@ export default function Quiz() {
                     <span
                       className={`rounded-full px-3 py-1 text-sm font-semibold ${answeredCorrectly ? "bg-[#d4e5cf] text-[#213320]" : "bg-[#ead3cb] text-[#4a281d]"}`}
                     >
-                      {answeredCorrectly ? "Acerto confirmado" : "Ajuste necessario"}
+                      {answeredCorrectly ? "Acerto confirmado" : "Ajuste necessário"}
                     </span>
                     <span className="text-sm text-[#5f6758]">
                       Gabarito: {q.answer}
@@ -335,26 +513,34 @@ export default function Quiz() {
                     <div className="mt-6 flex flex-col gap-4 rounded-[1.5rem] bg-[#111913] px-5 py-5 text-[#f4efe3] sm:flex-row sm:items-center sm:justify-between">
                       <div>
                         <p className="text-lg font-semibold">
-                          Missao concluida
+                          Teste {exam.label} concluído
                         </p>
                         <p className="mt-1 text-sm text-stone-300">
-                          Voce acertou {score} de {questions.length} questoes.
+                          Você acertou {score} de {examQuestions.length} questões.
                         </p>
                       </div>
 
-                      <button
-                        onClick={restart}
-                        className="rounded-2xl bg-[#c7a86c] px-5 py-3 text-sm font-semibold text-[#111913] transition hover:bg-[#d6b985]"
-                      >
-                        Reiniciar treinamento
-                      </button>
+                      <div className="flex flex-col gap-3 sm:flex-row">
+                        <button
+                          onClick={restart}
+                          className="rounded-2xl bg-[#c7a86c] px-5 py-3 text-sm font-semibold text-[#111913] transition hover:bg-[#d6b985]"
+                        >
+                          Refazer esta trilha
+                        </button>
+                        <Link
+                          href="/assinar"
+                          className="rounded-2xl border border-white/10 bg-white/8 px-5 py-3 text-center text-sm font-semibold text-[#f4efe3] transition hover:bg-white/12"
+                        >
+                          Desbloquear plano completo
+                        </Link>
+                      </div>
                     </div>
                   ) : (
                     <button
                       onClick={next}
                       className="mt-6 rounded-2xl bg-[#111913] px-5 py-3 text-sm font-semibold text-[#f4efe3] transition hover:bg-[#1b241b]"
                     >
-                      Avancar setor
+                      Próxima questão
                     </button>
                   )}
                 </div>
