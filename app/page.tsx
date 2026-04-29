@@ -79,24 +79,6 @@ const plans = [
   },
 ] as const;
 
-const testimonials = [
-  {
-    name: "Henrique, foco EsPCEx",
-    quote:
-      "A sensacao e de entrar num centro de preparacao mesmo. Fica mais facil estudar serio quando a plataforma cobra postura.",
-  },
-  {
-    name: "Ana Clara, preparacao AFA",
-    quote:
-      "O que me ganhou foi a clareza. Eu entro, vejo a missao do dia e executo sem perder tempo montando roteiro.",
-  },
-  {
-    name: "Caio, revisao para EFOMM",
-    quote:
-      "A plataforma passa disciplina visual e isso muda meu comportamento. Parei de revisar de forma solta.",
-  },
-] as const;
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,_#f5f0e5_0%,_#dfe6d5_45%,_#0f1711_45%,_#0b110d_100%)] text-stone-100">
@@ -130,9 +112,6 @@ export default function Home() {
               </a>
               <a href="#planos" className="transition hover:text-white">
                 Assinaturas
-              </a>
-              <a href="#prova-social" className="transition hover:text-white">
-                Resultados
               </a>
               <Link
                 href="/quiz"
@@ -392,43 +371,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="prova-social"
-        className="mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:px-12"
-      >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#d1c29b]">
-              Resultado em campo
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight text-[#f4efe3]">
-              Quem estuda aqui sente a diferenca no comportamento.
-            </h2>
-          </div>
-          <Link
-            href="/assinar"
-            className="inline-flex items-center justify-center rounded-full border border-[#c7a86c]/45 bg-[#c7a86c] px-5 py-3 text-sm font-semibold text-[#111913] transition hover:bg-[#d6b985]"
-          >
-            Entrar no QG
-          </Link>
-        </div>
-
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <article
-              key={testimonial.name}
-              className="rounded-[2rem] border border-[#2d392d] bg-[#131b14] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.18)]"
-            >
-              <p className="text-base leading-8 text-stone-200">
-                &ldquo;{testimonial.quote}&rdquo;
-              </p>
-              <p className="mt-6 text-sm font-semibold uppercase tracking-[0.18em] text-[#d1c29b]">
-                {testimonial.name}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }
