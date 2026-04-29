@@ -24,6 +24,25 @@ const features = [
   },
 ] as const;
 
+const platformReasons = [
+  {
+    title: "O que e o QG",
+    description:
+      "O QG de Aprovacao Militar e uma plataforma de preparacao focada em vestibulares militares. Em vez de deixar o aluno perdido entre PDFs, listas soltas e revisoes sem ordem, o site organiza a rotina em missoes objetivas, trilhas por banca e leitura de desempenho.",
+  },
+  {
+    title: "Como o aluno usa",
+    description:
+      "A pessoa entra, escolhe a carreira ou vestibular, executa um bloco de questoes, recebe correcao imediata e acompanha quais frentes precisam de reforco. O objetivo e transformar estudo disperso em treino com disciplina e constancia.",
+  },
+] as const;
+
+const subscribeReasons = [
+  "Assinar economiza tempo porque a plataforma ja entrega a ordem do que estudar, em vez de obrigar o aluno a montar tudo sozinho.",
+  "Assinar melhora a consistencia porque o ambiente foi pensado para criar rotina, mostrar progresso e reduzir abandono ao longo da semana.",
+  "Assinar aumenta a clareza porque o aluno passa a enxergar em quais materias esta forte, onde esta falhando e o que precisa atacar primeiro.",
+] as const;
+
 const plans = [
   {
     name: "Cadete",
@@ -234,6 +253,27 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-5 py-6 sm:px-8 lg:px-12">
+        <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          {platformReasons.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-[2rem] border border-[#cdbb93]/35 bg-[#f3ecdc] p-6 text-[#111913] shadow-[0_20px_60px_rgba(17,25,19,0.08)]"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#6f5836]">
+                Explicacao da plataforma
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+                {item.title}
+              </h2>
+              <p className="mt-4 text-base leading-8 text-[#3f493d]">
+                {item.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section
         id="frentes"
         className="mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:px-12"
@@ -274,6 +314,22 @@ export default function Home() {
               Cada plano entrega uma camada maior de organizacao, leitura de
               desempenho e intensidade de treino para vestibulares militares.
             </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {subscribeReasons.map((reason, index) => (
+              <div
+                key={reason}
+                className="rounded-[1.75rem] border border-white/10 bg-white/5 p-5"
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d1c29b]">
+                  Motivo {index + 1}
+                </p>
+                <p className="mt-3 text-sm leading-7 text-stone-200">
+                  {reason}
+                </p>
+              </div>
+            ))}
           </div>
 
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
